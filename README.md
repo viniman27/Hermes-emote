@@ -18,10 +18,32 @@ It draws actual images **inside the existing TUI**, no separate window, using th
 ## Requirements
 
 - **Hermes agent CLI** installed (`~/.hermes/`).
-- A terminal that speaks an inline-image protocol — **kitty graphics**:
-  - ✅ [Ghostty](https://ghostty.org) (recommended on macOS), kitty, WezTerm, iTerm2
-  - ❌ **Apple Terminal.app does not support inline images** — nothing will show there.
+- A terminal that speaks the **kitty graphics protocol with Unicode placeholders**
+  (see the compatibility table below).
 - Python deps already present in Hermes' venv: `prompt_toolkit`, `Pillow`, `pyyaml`.
+
+## Platform & terminal support
+
+The Python code is **OS-agnostic** — it runs anywhere Hermes runs. What decides
+whether anything shows up is the **terminal**, because the renderer emits **only
+the kitty graphics protocol** (Unicode placeholders). It does **not** emit sixel
+or the iTerm2 protocol. So:
+
+| OS | Works? | Terminals that work | Notes |
+|----|--------|---------------------|-------|
+| **macOS** | ✅ | [Ghostty](https://ghostty.org) (recommended), kitty, WezTerm | **Apple Terminal.app: ❌** no inline images at all |
+| **Linux** | ✅ | kitty, Ghostty, WezTerm | Konsole has partial kitty-graphics support; foot is sixel-only (won't work) |
+| **Windows** | ⚠️ unreliable | WezTerm *maybe* | **Windows Terminal: ❌** (it speaks sixel, not kitty graphics). Ghostty has no Windows build |
+
+> **Surest bets:** kitty and Ghostty — both fully support the Unicode-placeholder
+> feature this plugin relies on. WezTerm speaks kitty graphics but its placeholder
+> support may be incomplete; test before relying on it.
+
+> **Windows users:** there is currently no reliable option, because the common
+> terminal (Windows Terminal) doesn't implement kitty graphics. Full Windows
+> support would require adding a **sixel renderer + terminal auto-detection**
+> (the original [pi-emote](https://github.com/JarodMica/jarods-pi-extensions)
+> ships kitty/iterm/sixel renderers; this port is kitty-only for now). PRs welcome.
 
 ## How it works
 
