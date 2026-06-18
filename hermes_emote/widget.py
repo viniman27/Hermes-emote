@@ -47,6 +47,14 @@ class HermesEmote:
         self._info_t = 0.0
         self._last_term_size = None
         self._resize_pending = 0.0
+        # --- seleção de renderer (kitty padrão; sixel experimental p/ Windows) ---
+        from . import terminal
+        self.renderer = terminal.detect(self.cfg)   # "kitty" | "sixel"
+        self._sixel: dict[str, str] = {}
+        self._last_sixel: str | None = None
+        _cell = max(2, int(self.cfg.get("sixel_cell_px", 20)))
+        self._sx_w = self.cols * max(1, _cell // 2)
+        self._sx_h = self.rows * _cell
 
     # ---- estado ----
     @property
@@ -71,12 +79,37 @@ class HermesEmote:
         self._invalidate()
 
     def _sync_current(self) -> None:
-        """Atualiza o id a renderizar. Após preload, ensure_transmitted é no-op."""
+        """Atualiza o frame atual a renderizar (kitty: id transmitido; sixel: string)."""
         path = self.animator.current()
         if path is None:
             self._last_id = None
+            self._last_sixel = None
             return
-        self._last_id = self.assets.ensure_transmitted(path)
+        if self.renderer == "sixel":
+            s = self._sixel.get(str(path))
+            if s is None:
+                # encode sob demanda — é só CPU (sem I/O), seguro nesta thread
+                try:
+                    from . import sixel as _sx
+                    s = _sx.encode(self.assets._resized(path), self._sx_w, self._sx_h)
+                    self._sixel[str(path)] = s
+                except Exception as e:
+                    self.log.info("sixel encode fail %s: %s", path, e)
+                    s = None
+            self._last_sixel = s
+        else:
+            self._last_id = self.assets.ensure_transmitted(path)
+
+    def _preload_sixel(self) -> None:
+        """Codifica todos os frames em sixel (CPU only, sem I/O de terminal)."""
+        from . import sixel as _sx
+        for _st, paths in self.assets.frames.items():
+            for p in paths:
+                try:
+                    self._sixel[str(p)] = _sx.encode(self.assets._resized(p),
+                                                     self._sx_w, self._sx_h)
+                except Exception as e:
+                    self.log.info("sixel encode fail %s: %s", p, e)
 
     # ---- render (puro, sem I/O) ----
     def height(self) -> int:
@@ -98,7 +131,15 @@ class HermesEmote:
 
     def fragments(self):
         with self.lock:
-            if not self.enabled or self._last_id is None:
+            if not self.enabled:
+                return []
+            if self.renderer == "sixel":
+                if not self._last_sixel:
+                    return []
+                from . import sixel as _sx
+                # painel lateral fica só no kitty por ora (sixel cobre as células)
+                return _sx.fragments(self._last_sixel, self.cols, self.rows)
+            if self._last_id is None:
                 return []
             side = self._aligned_side(self.rows, self.cols)
             return kitty.placeholder_fragments(self._last_id, self.cols, self.rows,
@@ -197,12 +238,16 @@ class HermesEmote:
         self._cli_ref = weakref.ref(cli)
         if not self._preloaded:
             try:
-                self.assets.preload()
+                if self.renderer == "sixel":
+                    self._preload_sixel()
+                else:
+                    self.assets.preload()   # transmite imagens kitty (seguro: pré-render)
                 self._preloaded = True
                 with self.lock:
                     self.animator.set_state("hi")
                     self._sync_current()
-                self.log.info("hermes-emote ativo: %d estados, %d frames",
+                self.log.info("hermes-emote ativo (%s): %d estados, %d frames",
+                              self.renderer,
                               len(self.assets.frames),
                               sum(len(v) for v in self.assets.frames.values()))
             except Exception as e:
@@ -257,7 +302,7 @@ class HermesEmote:
                 time.sleep(0.2)
                 continue
             try:
-                if self.enabled and not self._forced_depth:
+                if self.enabled and self.renderer == "kitty" and not self._forced_depth:
                     self._force_truecolor(cli)
                 now = time.monotonic()
                 if self._check_resize(cli, now):

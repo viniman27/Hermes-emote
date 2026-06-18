@@ -25,25 +25,26 @@ It draws actual images **inside the existing TUI**, no separate window, using th
 ## Platform & terminal support
 
 The Python code is **OS-agnostic** — it runs anywhere Hermes runs. What decides
-whether anything shows up is the **terminal**, because the renderer emits **only
-the kitty graphics protocol** (Unicode placeholders). It does **not** emit sixel
-or the iTerm2 protocol. So:
+whether anything shows up is the **terminal**. Two renderers exist, picked
+automatically (`renderer: auto`):
 
-| OS | Works? | Terminals that work | Notes |
-|----|--------|---------------------|-------|
-| **macOS** | ✅ | [Ghostty](https://ghostty.org) (recommended), kitty, WezTerm | **Apple Terminal.app: ❌** no inline images at all |
-| **Linux** | ✅ | kitty, Ghostty, WezTerm | Konsole has partial kitty-graphics support; foot is sixel-only (won't work) |
-| **Windows** | ⚠️ unreliable | WezTerm *maybe* | **Windows Terminal: ❌** (it speaks sixel, not kitty graphics). Ghostty has no Windows build |
+- **kitty** graphics (Unicode placeholders) — the default, solid path.
+- **sixel** — *experimental*, for Windows Terminal and other non-kitty terminals
+  (see [`docs/SIXEL.md`](docs/SIXEL.md)).
+
+| OS | Works? | Terminals | Renderer |
+|----|--------|-----------|----------|
+| **macOS** | ✅ | [Ghostty](https://ghostty.org) (recommended), kitty, WezTerm | kitty (**Apple Terminal.app: ❌** no inline images) |
+| **Linux** | ✅ | kitty, Ghostty, WezTerm | kitty (Konsole partial; foot is sixel — try `renderer: sixel`) |
+| **Windows** | ⚠️ experimental | Windows Terminal | **sixel** (auto-detected); WezTerm uses kitty |
 
 > **Surest bets:** kitty and Ghostty — both fully support the Unicode-placeholder
-> feature this plugin relies on. WezTerm speaks kitty graphics but its placeholder
-> support may be incomplete; test before relying on it.
+> feature the kitty renderer relies on.
 
-> **Windows users:** there is currently no reliable option, because the common
-> terminal (Windows Terminal) doesn't implement kitty graphics. Full Windows
-> support would require adding a **sixel renderer + terminal auto-detection**
-> (the original [pi-emote](https://github.com/JarodMica/jarods-pi-extensions)
-> ships kitty/iterm/sixel renderers; this port is kitty-only for now). PRs welcome.
+> **Windows / sixel:** auto-detected for Windows Terminal. The sixel path is new
+> and **largely untested** (a pure-Python sixel encoder + a placement hack for
+> prompt_toolkit) — see [`docs/SIXEL.md`](docs/SIXEL.md) for how it works, how to
+> tune size (`sixel_cell_px`), known limits, and how to report issues.
 
 ## How it works
 
@@ -128,6 +129,8 @@ alternating them; `idle` blinks by swapping `idle.png` ↔ `idle_blink.png`.
 |---|---|---|
 | `enabled` | `true` | master on/off |
 | `emote_set` | `Hermes` | folder under `emotes/` |
+| `renderer` | `auto` | `auto` / `kitty` / `sixel` (see [docs/SIXEL.md](docs/SIXEL.md)) |
+| `sixel_cell_px` | `20` | [sixel] approx cell height in px — tunes on-screen size |
 | `rows` | `10` | emote height in cells (width = rows×2) |
 | `hide_below_cols` | `60` | hide if terminal narrower than this |
 | `reserve_rows` | `10` | hide if not enough height for status bar/prompt |

@@ -13,6 +13,8 @@ CONFIG_PATH = PLUGIN_DIR / "config.yaml"
 DEFAULTS: dict = {
     "enabled": True,
     "emote_set": "Hermes",        # pasta sob emotes/
+    "renderer": "auto",        # auto | kitty | sixel (auto detecta pelo terminal)
+    "sixel_cell_px": 20,       # [sixel] altura aprox. de uma célula em px (ajuste o tamanho)
     "rows": 10,                # altura do emote em células (largura = rows*2)
     "hide_below_cols": 60,     # esconde o widget se o terminal for mais estreito
     "reserve_rows": 10,        # esconde o emote se faltar altura p/ o resto (status/réguas/prompt)

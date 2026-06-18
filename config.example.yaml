@@ -3,6 +3,10 @@
 enabled: true
 emote_set: Hermes            # pasta sob emotes/
 
+# Renderer de imagem
+renderer: auto            # auto | kitty | sixel  (auto detecta pelo terminal)
+sixel_cell_px: 20         # [sixel/experimental] altura aprox. de uma célula em px
+
 # Tamanho/posição
 rows: 10                  # altura do emote em células (largura = rows*2). Aumente p/ maior.
 hide_below_cols: 60       # esconde o emote se o terminal for mais estreito que isto
