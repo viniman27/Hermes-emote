@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Runtime / generated
+ada-emote.log
+.cache/
+config.yaml          # user config — ship config.example.yaml instead
+
+# Image sets are user-provided (keep folder structure, not the art)
+emotes/*/*/*.png
+emotes/*/*/*.webp
+emotes/*/*/*.jpg
+emotes/*/*/*.jpeg
+emotes/*/*/*.gif
+
+# OS
+.DS_Store

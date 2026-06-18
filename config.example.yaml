@@ -1,0 +1,39 @@
+# Config do ada-emote. Editável a quente — reabra o Hermes para aplicar.
+
+enabled: true
+emote_set: Ada            # pasta sob emotes/
+
+# Tamanho/posição
+rows: 10                  # altura do emote em células (largura = rows*2). Aumente p/ maior.
+hide_below_cols: 60       # esconde o emote se o terminal for mais estreito que isto
+reserve_rows: 10          # esconde o emote se faltar altura p/ status+réguas+prompt (corrige resize)
+show_info: true           # texto à direita da imagem (nome, estado, modelo, contexto, duração)
+
+# Frases da Ada que rotacionam no painel lateral
+phrases:
+  - "afiando a lâmina"
+  - "observando em silêncio"
+  - "medindo riscos"
+  - "sempre alerta"
+  - "pronta pra próxima"
+phrase_rotate_s: 12       # troca de frase a cada N segundos (0 = sem frases)
+
+# Piscar no idle (alterna idle.png <-> idle_blink.png)
+idle_blink: true
+blink_close_ms: 140       # tempo de olhos fechados por piscada
+blink_min_ms: 3000        # intervalo mínimo entre piscadas
+blink_max_ms: 6000        # intervalo máximo entre piscadas
+
+# Animação dos demais estados
+talk_tick_ms: 120         # troca de frame ao "falar" (talk_*). Menor = boca mais rápida.
+cycle_ms: 500             # alterna os 2 frames de think/read/write/tool/failure
+
+# Quanto tempo segurar estados transitórios antes de voltar a idle
+hold_ms:
+  hi: 2000
+  success: 1200
+  failure: 1500
+  compact: 1500
+
+# Qualidade/peso do preload (redimensiona as imagens uma vez via Pillow)
+cache_px: 384             # lado máx. da imagem transmitida. Maior = mais nítido e pesado.
