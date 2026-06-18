@@ -87,7 +87,10 @@ def placeholder_fragments(image_id: int, cols: int, rows: int,
         row_text = "".join(PLACEHOLDER + _diac(r) + _diac(c) for c in range(cols))
         frags.append((style, row_text))
         if r < len(side_lines) and side_lines[r]:
-            frags.append((side_style, "  " + side_lines[r]))
+            item = side_lines[r]
+            st, txt = item if isinstance(item, tuple) else (side_style, item)
+            if txt:
+                frags.append((st, "  " + txt))
         if r < rows - 1:
             frags.append(("", "\n"))
     return frags

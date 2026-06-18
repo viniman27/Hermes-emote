@@ -17,6 +17,8 @@ DEFAULTS: dict = {
     "hide_below_cols": 60,     # esconde o widget se o terminal for mais estreito
     "reserve_rows": 10,        # esconde o emote se faltar altura p/ o resto (status/réguas/prompt)
     "show_info": True,         # texto informativo à direita da imagem (nome/estado/modelo/ctx)
+    "info_color": "#ff5b5b",   # cor base (vermelho) do painel lateral
+    "show_gateway": True,      # mostra "✈ Telegram: N" quando há pedido em andamento no gateway
     "phrases": [               # frases do Hermes que rotacionam no painel lateral
         "afiando a lâmina",
         "observando em silêncio",
@@ -29,7 +31,8 @@ DEFAULTS: dict = {
     "blink_min_ms": 3000,
     "blink_max_ms": 6000,
     "cycle_ms": 500,           # ciclo de frames em estados com múltiplos quadros
-    "idle_blink": True,        # piscar em idle (alterna idle.png <-> idle_blink.png)
+    "idle_cycle_ms": 900,      # ritmo do ciclo entre os frames de idle (idle, idle3..idleN)
+    "idle_blink": True,        # piscar em idle (insere idle_blink no meio do ciclo)
     "blink_close_ms": 140,     # quanto tempo os olhos ficam fechados por piscada
     "cache_px": 384,           # reduz as imagens neste tamanho no preload (Pillow)
     "hold_ms": {               # quanto tempo segurar estados transitórios antes de voltar a idle

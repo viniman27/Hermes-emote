@@ -57,8 +57,12 @@ or the iTerm2 protocol. So:
   Window, so the TUI measures/clears the area correctly and never fights the cursor.
 - Frames are **preloaded and downscaled** (Pillow) once at startup for a snappy,
   flicker-free swap during use.
-- A side panel shows live info (name, state, model, context %, background tasks,
-  rotating persona phrases).
+- A **side panel** (colored, configurable) shows live info: name, rotating persona
+  phrases, current state, model, context %, API calls, background tasks, a clock,
+  and — when the **gateway** is running — an **"✈ Telegram: N"** indicator while a
+  request from the Telegram (or other platform) integration is being processed.
+- `idle` is **animated**: it slowly cycles through your idle frames (`idle.png`,
+  `idle3.png`, …) and blinks (`idle_blink.png`) in between.
 
 ## Install
 
@@ -108,8 +112,9 @@ emotes/Hermes/
   emotes.json        # optional: blink frame, talk weights (see example)
 ```
 
-Set `emote_set: <SetName>` in `config.yaml`. States with two frames animate by
-alternating them; `idle` blinks by swapping `idle.png` ↔ `idle_blink.png`.
+Set `emote_set: <SetName>` in `config.yaml`. States with multiple frames animate
+by cycling them. `idle` cycles through its non-blink frames (`idle.png`,
+`idle3.png`, …) and blinks via `idle_blink.png` in between.
 
 `emotes.json` (optional) example:
 
@@ -132,7 +137,10 @@ alternating them; `idle` blinks by swapping `idle.png` ↔ `idle_blink.png`.
 | `hide_below_cols` | `60` | hide if terminal narrower than this |
 | `reserve_rows` | `10` | hide if not enough height for status bar/prompt |
 | `show_info` | `true` | side info panel |
+| `info_color` | `#ff5b5b` | base color of the side panel |
+| `show_gateway` | `true` | show "✈ Telegram: N" when the gateway is processing a request |
 | `idle_blink` | `true` | blink while idle |
+| `idle_cycle_ms` | `900` | pace of cycling through idle frames |
 | `blink_close_ms` | `140` | eyes-closed duration per blink |
 | `blink_min_ms` / `blink_max_ms` | `3000` / `6000` | interval between blinks |
 | `talk_tick_ms` | `120` | mouth frame swap speed while talking |

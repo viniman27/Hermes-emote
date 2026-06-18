@@ -115,12 +115,17 @@ class HermesEmote:
         except Exception:
             term = 80
         maxw = max(8, term - cols - 4)
-        info = [(t[: maxw - 1] + "…") if len(t) > maxw else t for t in info]
-        offset = max(0, (rows - len(info)) // 2)
-        side = [""] * rows
-        for i, t in enumerate(info):
+        trimmed = []
+        for item in info:
+            st, txt = item if isinstance(item, tuple) else ("", item)
+            if len(txt) > maxw:
+                txt = txt[: maxw - 1] + "…"
+            trimmed.append((st, txt))
+        offset = max(0, (rows - len(trimmed)) // 2)
+        side = [("", "")] * rows
+        for i, it in enumerate(trimmed):
             if offset + i < rows:
-                side[offset + i] = t
+                side[offset + i] = it
         return side
 
     def _check_resize(self, cli, now: float) -> bool:
@@ -160,33 +165,57 @@ class HermesEmote:
         return str(phrases[int(now // rotate) % len(phrases)])
 
     def _refresh_info(self, cli, now: float) -> None:
-        """Atualiza as infos laterais fora do render (a cada ~0.8s)."""
+        """Atualiza as infos laterais fora do render (a cada ~0.8s).
+
+        Cada linha é uma tupla (estilo, texto) — painel em vermelho, nome em destaque.
+        """
         if now - self._info_t < 0.8:
             return
         self._info_t = now
         if not self.cfg.get("show_info", True):
             self._info_lines = []
             return
-        lines = ["Hermes"]
+        ic = str(self.cfg.get("info_color", "#ff5b5b"))
+        NAME = "bold fg:#ff4d4d"
+        ACCENT = f"bold fg:{ic}"
+        MUTE = "fg:#d98c8c"
+        PHRASE = "italic fg:#ff9a9a"
+        BG = "bold fg:#ffb347"
+
+        lines = [(NAME, "✶ Hermes")]
         phrase = self._phrase(now)
         if phrase:
-            lines.append(f"“{phrase}”")
-        lines.append("· " + STATE_LABELS.get(self.animator.state, self.animator.state))
+            lines.append((PHRASE, f"“{phrase}”"))
+        lines.append((ACCENT, "· " + STATE_LABELS.get(self.animator.state, self.animator.state)))
         try:
             snap = cli._get_status_bar_snapshot()
             model = snap.get("model_short")
             if model:
-                lines.append("⚕ " + str(model))
+                lines.append((MUTE, "⚕ " + str(model)))
             pct = snap.get("context_percent")
             if pct is not None:
-                lines.append(f"ctx {pct}%")
+                lines.append((MUTE, f"ctx {pct}%"))
+            calls = int(snap.get("session_api_calls", 0) or 0)
+            if calls:
+                lines.append((MUTE, f"✦ {calls} calls"))
             bg = int(snap.get("active_background_tasks", 0) or 0) + \
                 int(snap.get("active_background_processes", 0) or 0)
             if bg:
-                lines.append(f"▶ {bg} em bg")
+                lines.append((BG, f"▶ {bg} em bg"))
+            # pedido em andamento no gateway (ex.: Telegram)
+            if self.cfg.get("show_gateway", True):
+                try:
+                    from . import gateway_link
+                    inf = gateway_link.read_inflight()
+                    if inf:
+                        plats = inf.get("platforms") or []
+                        label = "Telegram" if "telegram" in plats else "Gateway"
+                        lines.append(("bold fg:#5bc0ff", f"✈ {label}: {inf['count']}"))
+                except Exception:
+                    pass
             dur = snap.get("duration")
-            if dur:
-                lines.append(str(dur))
+            clock = time.strftime("%H:%M")
+            lines.append((MUTE, f"🕐 {clock}" + (f" · {dur}" if dur else "")))
         except Exception:
             pass
         self._info_lines = lines
@@ -277,7 +306,7 @@ class HermesEmote:
                 animated = self.enabled and (
                     running
                     or bool(self.cfg["hold_ms"].get(st))
-                    or (st == "idle" and self.cfg.get("idle_blink"))
+                    or (st == "idle" and self.animator.idle_animated())
                 )
                 if animated:
                     with self.lock:

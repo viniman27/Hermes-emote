@@ -10,6 +10,23 @@ import os
 
 
 def register(ctx) -> None:
+    # Ponte gateway->CLI: registra se há pedido em andamento (ex.: Telegram).
+    # Funciona no processo do gateway; no CLI é só leitura do arquivo.
+    try:
+        from .hermes_emote import gateway_link
+        gateway_link.register_gateway_hooks(ctx)
+    except Exception:
+        pass
+
+    # No processo do GATEWAY não há TUI — não instala o patch (evita importar a CLI).
+    if os.environ.get("_HERMES_GATEWAY") == "1":
+        ctx.register_command(
+            "hermes-emote", _cmd,
+            description="Controla o emote visual do Hermes (on/off/status)",
+            args_hint="on|off|status",
+        )
+        return
+
     # O id da imagem é codificado na cor de frente -> truecolor obrigatório.
     # Best-effort cedo (o app já-criado também é forçado pelo widget).
     os.environ.setdefault("PROMPT_TOOLKIT_COLOR_DEPTH", "DEPTH_24_BIT")

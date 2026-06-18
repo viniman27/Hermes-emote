@@ -32,6 +32,7 @@ sozinho (graceful) e registra no log. Esta é a lista a revalidar após updates:
 | `spinner_loop` (thread de 0.1s) | motor de animação existente | ~12918 |
 | `get_plugin_manager()._cli_ref` | acesso à CLI viva a partir do plugin | ~11078 |
 | hooks válidos: `on_session_start`, `on_session_end` | ciclo de vida | plugins.py ~140 |
+| hook `pre_gateway_dispatch` + `gateway._running_agent_count()` | indicador "✈ Telegram: N" (gateway_link.py) | gateway/run.py ~6801 / ~3245 |
 
 ## Pré-requisito de terminal (NÃO é bug)
 

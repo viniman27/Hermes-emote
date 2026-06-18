@@ -5,6 +5,7 @@ __pycache__/
 
 # Runtime / generated
 hermes-emote.log
+gateway_inflight.json
 .cache/
 config.yaml          # user config — ship config.example.yaml instead
 
