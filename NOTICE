@@ -1,0 +1,9 @@
+ada-emote
+Copyright (c) 2026 Viniman27 — MIT License (see LICENSE).
+
+This project is an independent reimplementation inspired by "pi-emote":
+  https://github.com/JarodMica/jarods-pi-extensions
+  Copyright (c) 2026 Eiji Onchi (JarodMica), MIT License.
+
+pi-emote is an emote extension for the Pi agent. ada-emote ports the idea —
+event-driven, image-based emotes — to the Hermes agent CLI, as a Python plugin.
