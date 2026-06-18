@@ -1,4 +1,4 @@
-# ada-emote
+# Hermes-emote
 
 A live **emote widget for the [Hermes agent](https://github.com/NousResearch/hermes) CLI**: it renders a real
 inline image (your character's portrait) above the prompt and reacts to what the
@@ -137,4 +137,4 @@ alternating them; `idle` blinks by swapping `idle.png` ↔ `idle_blink.png`.
 
 ## License
 
-[MIT](LICENSE) — same as the original pi-emote.
+[MIT](LICENSE) 
