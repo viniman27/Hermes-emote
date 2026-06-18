@@ -42,8 +42,8 @@ It draws actual images **inside the existing TUI**, no separate window, using th
 
 ```bash
 # clone into Hermes' user-plugin folder
-# (the TARGET dir must be named "ada-emote" — that's the plugin key)
-git clone https://github.com/viniman27/Hermes-emote ~/.hermes/plugins/ada-emote
+# (the TARGET dir must be named "hermes-emote" — that's the plugin key)
+git clone https://github.com/viniman27/Hermes-emote ~/.hermes/plugins/hermes-emote
 ```
 
 Enable it (user plugins are opt-in). In `~/.hermes/config.yaml`:
@@ -51,20 +51,20 @@ Enable it (user plugins are opt-in). In `~/.hermes/config.yaml`:
 ```yaml
 plugins:
   enabled:
-    - ada-emote        # add this line
+    - hermes-emote        # add this line
 ```
 
 Optionally copy the example config and tweak:
 
 ```bash
-cp ~/.hermes/plugins/ada-emote/config.example.yaml ~/.hermes/plugins/ada-emote/config.yaml
+cp ~/.hermes/plugins/hermes-emote/config.example.yaml ~/.hermes/plugins/hermes-emote/config.yaml
 ```
 
 Then **start Hermes in a graphics-capable terminal** (e.g. Ghostty). In-session:
 
 ```
-/ada-emote status      # show state, set, model, terminal
-/ada-emote on | off
+/hermes-emote status      # show state, set, model, terminal
+/hermes-emote on | off
 ```
 
 ## Add your own image set
@@ -73,7 +73,7 @@ No images are shipped — bring your own. Drop square PNG portraits under
 `emotes/<SetName>/<state>/`:
 
 ```
-emotes/Ada/
+emotes/Hermes/
   idle/   idle.png  idle_blink.png
   think/  think.png think_hard.png
   talk/   talk_close.png talk_small.png talk_mid.png talk_wide.png
@@ -105,7 +105,7 @@ alternating them; `idle` blinks by swapping `idle.png` ↔ `idle_blink.png`.
 | Key | Default | What it does |
 |---|---|---|
 | `enabled` | `true` | master on/off |
-| `emote_set` | `Ada` | folder under `emotes/` |
+| `emote_set` | `Hermes` | folder under `emotes/` |
 | `rows` | `10` | emote height in cells (width = rows×2) |
 | `hide_below_cols` | `60` | hide if terminal narrower than this |
 | `reserve_rows` | `10` | hide if not enough height for status bar/prompt |
@@ -124,7 +124,7 @@ alternating them; `idle` blinks by swapping `idle.png` ↔ `idle_blink.png`.
 - **Nothing shows, Hermes works fine** → you're probably in Apple Terminal, or the
   app isn't in truecolor. The plugin forces 24-bit color (the image id is encoded
   in the foreground color). Check the log:
-  `~/.hermes/plugins/ada-emote/ada-emote.log`.
+  `~/.hermes/plugins/hermes-emote/hermes-emote.log`.
 - **Status bar / rules vanish on resize** → handled: Hermes hides them on resize
   until input; the plugin restores them once the resize settles.
 - Full notes & the list of Hermes internals this depends on:

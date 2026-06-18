@@ -1,4 +1,4 @@
-"""Config em camadas com defaults. Arquivo: ~/.hermes/plugins/ada-emote/config.yaml"""
+"""Config em camadas com defaults. Arquivo: ~/.hermes/plugins/hermes-emote/config.yaml"""
 from __future__ import annotations
 
 from pathlib import Path
@@ -12,12 +12,12 @@ CONFIG_PATH = PLUGIN_DIR / "config.yaml"
 
 DEFAULTS: dict = {
     "enabled": True,
-    "emote_set": "Ada",        # pasta sob emotes/
+    "emote_set": "Hermes",        # pasta sob emotes/
     "rows": 10,                # altura do emote em células (largura = rows*2)
     "hide_below_cols": 60,     # esconde o widget se o terminal for mais estreito
     "reserve_rows": 10,        # esconde o emote se faltar altura p/ o resto (status/réguas/prompt)
     "show_info": True,         # texto informativo à direita da imagem (nome/estado/modelo/ctx)
-    "phrases": [               # frases da Ada que rotacionam no painel lateral
+    "phrases": [               # frases do Hermes que rotacionam no painel lateral
         "afiando a lâmina",
         "observando em silêncio",
         "medindo riscos",

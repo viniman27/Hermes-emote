@@ -3,12 +3,12 @@
 
 Sem dependências (nem Pillow). Gera um quadrado de gradiente em RGB cru e
 transmite via kitty graphics protocol. Se você ver um quadrado colorido,
-o terminal suporta imagem inline — caminho livre pro emote da Ada.
+o terminal suporta imagem inline — caminho livre pro emote do Hermes.
 
 Uso (DENTRO do Ghostty):
-    python3 ~/.hermes/plugins/ada-emote/scripts/smoke_kitty.py
+    python3 ~/.hermes/plugins/hermes-emote/scripts/smoke_kitty.py
     # opcional: testar com um PNG seu
-    python3 ~/.hermes/plugins/ada-emote/scripts/smoke_kitty.py /caminho/imagem.png
+    python3 ~/.hermes/plugins/hermes-emote/scripts/smoke_kitty.py /caminho/imagem.png
 
 Se rodar no Apple Terminal.app, NADA aparece — isso é esperado, ele não
 suporta o protocolo.

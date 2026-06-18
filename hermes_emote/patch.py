@@ -9,16 +9,16 @@ import shutil
 from pathlib import Path
 
 from .log import get_logger
-from .widget import AdaEmote
+from .widget import HermesEmote
 
 PLUGIN_DIR = Path(__file__).resolve().parents[1]
 
-_emote: AdaEmote | None = None
+_emote: HermesEmote | None = None
 _window = None
 _installed = False
 
 
-def get_emote() -> AdaEmote | None:
+def get_emote() -> HermesEmote | None:
     return _emote
 
 
@@ -88,7 +88,7 @@ def install() -> bool:
         log.info("HermesCLI não encontrada — emote desligado")
         return False
 
-    _emote = AdaEmote(PLUGIN_DIR)
+    _emote = HermesEmote(PLUGIN_DIR)
     if not _emote.assets.available():
         log.info("nenhum frame em emotes/%s — emote inerte", _emote.cfg["emote_set"])
 
@@ -123,7 +123,7 @@ def install() -> bool:
     _wrap(cls, "_on_tool_progress", _on_progress, log)
 
     _installed = True
-    log.info("ada-emote: patch instalado")
+    log.info("hermes-emote: patch instalado")
     return True
 
 

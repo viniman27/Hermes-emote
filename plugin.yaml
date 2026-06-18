@@ -1,6 +1,6 @@
-name: ada-emote
+name: hermes-emote
 version: 0.1.0
-description: "Widget de emote visual da Ada no TUI: renderiza imagens inline (kitty graphics) reagindo aos estados do agente — think/talk/read/write/tool/failure. Plugin de usuário à prova de update; não edita o cli.py."
+description: "Widget de emote visual do Hermes no TUI: renderiza imagens inline (kitty graphics) reagindo aos estados do agente — think/talk/read/write/tool/failure. Plugin de usuário à prova de update; não edita o cli.py."
 author: "Viniman27"
 kind: standalone
 platforms:

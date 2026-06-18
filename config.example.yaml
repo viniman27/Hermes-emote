@@ -1,7 +1,7 @@
-# Config do ada-emote. Editável a quente — reabra o Hermes para aplicar.
+# Config do hermes-emote. Editável a quente — reabra o Hermes para aplicar.
 
 enabled: true
-emote_set: Ada            # pasta sob emotes/
+emote_set: Hermes            # pasta sob emotes/
 
 # Tamanho/posição
 rows: 10                  # altura do emote em células (largura = rows*2). Aumente p/ maior.
@@ -9,7 +9,7 @@ hide_below_cols: 60       # esconde o emote se o terminal for mais estreito que 
 reserve_rows: 10          # esconde o emote se faltar altura p/ status+réguas+prompt (corrige resize)
 show_info: true           # texto à direita da imagem (nome, estado, modelo, contexto, duração)
 
-# Frases da Ada que rotacionam no painel lateral
+# Frases do Hermes que rotacionam no painel lateral
 phrases:
   - "afiando a lâmina"
   - "observando em silêncio"

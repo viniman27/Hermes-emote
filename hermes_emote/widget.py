@@ -1,4 +1,4 @@
-"""AdaEmote — orquestra estado + assets + renderer e injeta no TUI do Hermes.
+"""HermesEmote — orquestra estado + assets + renderer e injeta no TUI do Hermes.
 
 Pontos-chave de segurança:
 - Transmissão de imagem (escreve no stdout) só acontece no preload, chamado em
@@ -26,7 +26,7 @@ STATE_LABELS = {
 }
 
 
-class AdaEmote:
+class HermesEmote:
     def __init__(self, plugin_dir: Path):
         self.log = get_logger()
         self.cfg = _config.load()
@@ -167,7 +167,7 @@ class AdaEmote:
         if not self.cfg.get("show_info", True):
             self._info_lines = []
             return
-        lines = ["Ada"]
+        lines = ["Hermes"]
         phrase = self._phrase(now)
         if phrase:
             lines.append(f"“{phrase}”")
@@ -202,7 +202,7 @@ class AdaEmote:
                 with self.lock:
                     self.animator.set_state("hi")
                     self._sync_current()
-                self.log.info("ada-emote ativo: %d estados, %d frames",
+                self.log.info("hermes-emote ativo: %d estados, %d frames",
                               len(self.assets.frames),
                               sum(len(v) for v in self.assets.frames.values()))
             except Exception as e:
@@ -219,7 +219,7 @@ class AdaEmote:
     def _start_thread(self) -> None:
         if self._thread is not None:
             return
-        self._thread = threading.Thread(target=self._loop, daemon=True, name="ada-emote-anim")
+        self._thread = threading.Thread(target=self._loop, daemon=True, name="hermes-emote-anim")
         self._thread.start()
 
     def _cli(self):

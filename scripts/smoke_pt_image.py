@@ -2,31 +2,31 @@
 """Smoke test nº2: imagem inline DENTRO do prompt_toolkit (via kitty placeholders).
 
 Prova a parte difícil — colocar a imagem numa grade de células do prompt_toolkit
-sem brigar com o cursor. Mostra a Ada idle num Window; ESPAÇO troca de imagem
+sem brigar com o cursor. Mostra a Hermes idle num Window; ESPAÇO troca de imagem
 (idle -> think -> talk_mid), 'q' sai.
 
 Rodar DENTRO do Ghostty com o python do Hermes:
     ~/.hermes/hermes-agent/.venv/bin/python \
-        ~/.hermes/plugins/ada-emote/scripts/smoke_pt_image.py
+        ~/.hermes/plugins/hermes-emote/scripts/smoke_pt_image.py
 
-Se as imagens da Ada aparecerem acima da barra de ajuda e trocarem ao apertar
+Se as imagens do Hermes aparecerem acima da barra de ajuda e trocarem ao apertar
 espaço, o caminho está provado e dá pra embutir no Hermes.
 """
 import sys
 from pathlib import Path
 
-# Torna o pacote ada_emote importável (kitty.py).
+# Torna o pacote hermes_emote importável (kitty.py).
 PLUGIN = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PLUGIN))
 
-from ada_emote import kitty  # noqa: E402
+from hermes_emote import kitty  # noqa: E402
 from prompt_toolkit import Application  # noqa: E402
 from prompt_toolkit.output.color_depth import ColorDepth  # noqa: E402
 from prompt_toolkit.key_binding import KeyBindings  # noqa: E402
 from prompt_toolkit.layout import HSplit, Layout, Window  # noqa: E402
 from prompt_toolkit.layout.controls import FormattedTextControl  # noqa: E402
 
-EMOTES = PLUGIN / "emotes" / "Ada"
+EMOTES = PLUGIN / "emotes" / "Hermes"
 ROWS = 10          # altura do emote em células
 COLS = ROWS * 2    # largura (≈ quadrado, célula é ~1:2)
 

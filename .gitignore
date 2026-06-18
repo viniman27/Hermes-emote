@@ -4,7 +4,7 @@ __pycache__/
 *.egg-info/
 
 # Runtime / generated
-ada-emote.log
+hermes-emote.log
 .cache/
 config.yaml          # user config — ship config.example.yaml instead
 

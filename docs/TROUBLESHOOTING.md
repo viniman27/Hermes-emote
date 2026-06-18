@@ -1,6 +1,6 @@
-# ada-emote — design, riscos e troubleshooting
+# hermes-emote — design, riscos e troubleshooting
 
-Widget de emote da Ada (imagem inline reagindo ao estado do agente), feito como
+Widget de emote do Hermes (imagem inline reagindo ao estado do agente), feito como
 **plugin de usuário** do Hermes para sobreviver a atualizações.
 
 ## Por que plugin, e não edição do cli.py
@@ -80,8 +80,8 @@ cursor. (Detalhe de implementação — documentar aqui quando estabilizar.)
    (determinístico, via thread de animação). Se um dia o emote aparecer "em
    branco", confira no log se "color depth forçado" saiu.
 2. **Plugin opt-in.** Plugins de usuário só carregam se o nome estiver em
-   `plugins.enabled` no `~/.hermes/config.yaml`. `ada-emote` já foi adicionado lá.
-   Se sumir após um `migrate_config`, readicione `- ada-emote`.
+   `plugins.enabled` no `~/.hermes/config.yaml`. `hermes-emote` já foi adicionado lá.
+   Se sumir após um `migrate_config`, readicione `- hermes-emote`.
 
 ## Estado atual
 
@@ -90,14 +90,14 @@ cursor. (Detalhe de implementação — documentar aqui quando estabilizar.)
 - [x] Smoke test de kitty graphics (gradiente) — OK no Ghostty
 - [x] Render inline dentro do prompt_toolkit (Teste B) — OK e troca de frame
 - [x] Plugin scaffold (`plugin.yaml` + `register`) — carrega: enabled, sem erro
-- [x] Renderer kitty (unicode placeholders) — `ada_emote/kitty.py`
+- [x] Renderer kitty (unicode placeholders) — `hermes_emote/kitty.py`
 - [x] Máquina de estados ligada aos callbacks (5 métodos wrapped) — `patch.py`
-- [x] Imagens do usuário em `emotes/Ada/` (19 frames, 9 estados)
+- [x] Imagens do usuário em `emotes/Hermes/` (19 frames, 9 estados)
 - [x] Preload com resize via Pillow (~174 KB/frame, ~4.4 MB total)
-- [x] Comando `/ada-emote on|off|status`
+- [x] Comando `/hermes-emote on|off|status`
 - [ ] Validação visual numa sessão real do Hermes no Ghostty
 
 ## Log
 
-`~/.hermes/plugins/ada-emote/ada-emote.log` — carga do patch, color depth,
+`~/.hermes/plugins/hermes-emote/hermes-emote.log` — carga do patch, color depth,
 falhas de transmit/resize. Primeiro lugar a olhar se algo não aparecer.
