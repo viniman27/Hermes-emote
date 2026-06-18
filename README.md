@@ -41,8 +41,9 @@ It draws actual images **inside the existing TUI**, no separate window, using th
 ## Install
 
 ```bash
-# clone into Hermes' user-plugin folder (the dir name IS the plugin key)
-git clone https://github.com/viniman27/ada-emote ~/.hermes/plugins/ada-emote
+# clone into Hermes' user-plugin folder
+# (the TARGET dir must be named "ada-emote" — that's the plugin key)
+git clone https://github.com/viniman27/Hermes-emote ~/.hermes/plugins/ada-emote
 ```
 
 Enable it (user plugins are opt-in). In `~/.hermes/config.yaml`:
